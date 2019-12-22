@@ -40,7 +40,17 @@
       </header>
       <section>
 
-TEST TEST TEST
+        <ul>
+          {% for article in site.articles %}
+          <li>{{ article.name }}
+            <ul>
+              {% for chapter in article.chapters %}
+              <li>{{ chapter.name }}</li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endfor %}
+        </ul>
 
       {{ content }}
 
