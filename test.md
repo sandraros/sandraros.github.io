@@ -1,1 +1,1 @@
-retour à [[index.md]]
+retour à [index.md](index)
