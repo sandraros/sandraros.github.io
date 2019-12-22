@@ -1,6 +1,6 @@
 theme: jekyll-theme-minimal
-title: mytitle
-description: mydescription
+title: Quality SAP Questions and Answers
+description: Concise, precise and collaborative
 articles:
   - name: article1
     chapters:
