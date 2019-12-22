@@ -38,7 +38,7 @@
 
         <ul>
           {% for article in site.articles %}
-          <li>{{ article.name }}
+          <li><a href="{{ article.url }}">{{ article.name }}</a>
             <ul>
               {% for chapter in article.chapters %}
               <li>{{ chapter.name }}</li>
