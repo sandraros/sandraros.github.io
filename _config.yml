@@ -2,8 +2,10 @@ theme: jekyll-theme-minimal
 title: mytitle
 description: mydescription
 articles:
-  - article1
-    - chapter1
-    - chapter2
-  - article2
-    - chapter1
+  - name: article1
+    chapters:
+      - name: chapter1
+      - name: chapter2
+  - name: article2
+    chapters:
+    - name: chapter1
