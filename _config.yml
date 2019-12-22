@@ -2,10 +2,10 @@ theme: jekyll-theme-minimal
 title: Quality SAP Questions and Answers
 description: Concise, precise and collaborative
 articles:
-  - name: article1
+  - {name: Code of the smallest PDF (binary format), url: Code-of-the-smallest-PDF-binary-format}
     chapters:
       - name: chapter1
       - name: chapter2
-  - name: article2
+  - {name: article2, url: xxx}
     chapters:
     - name: chapter1
