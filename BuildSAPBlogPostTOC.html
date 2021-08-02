@@ -1,0 +1,31 @@
+<html>
+  <header>
+    <script language="javascript">
+      function generateTOC() {
+        let TOC = '<div id="TOC">Table of Contents:';
+        let previousHeadingLevel = 0;
+        let HTMLInput = document.getElementById('HTMLInput');
+        for (const match of HTMLInput.value.matchAll(/<(h)(\d+)[^>]*>((?:(?!\1\2).)+)<\/\1\2>/gis)) {
+          let headingLevel = parseInt(match[2]);
+          for( i=previousHeadingLevel; i<headingLevel; i++ ) TOC = TOC + '<ul>\n';
+          for( i=headingLevel; i<previousHeadingLevel; i++ ) TOC = TOC + '</ul>\n';
+          TOC = TOC + `<li><a href="#${match[3].replaceAll(' ','_')}">${match[3]}</a></li>` + '\n';
+          previousHeadingLevel = headingLevel;
+        }
+        TOC = TOC + "</ul>\n".repeat(previousHeadingLevel) + "</div>\n";
+        if( HTMLInput.value.match( /<div[^>]+id="TOC"/gi ))
+          HTMLInput.value = HTMLInput.value.replace( /<div[^>]+id="TOC"[^>]*>.+<\/div>/gis, TOC );
+        else
+          HTMLInput.value = TOC + HTMLInput.value;
+        HTMLInput.value = HTMLInput.value.replaceAll(/<(h\d+)[^>]*>((?:(?!\1).)+)<\/\1>/gis,(m,sm1,sm2,sm3)=>`<${sm1} id="${sm2.replaceAll(' ','_')}">${sm2}</${sm1}>`);
+      }
+    </script>
+  </header>
+  <body>
+    <form>
+      <label for="HTMLInput">Paste the HTML code from your SAP blog post?</label>
+      <div><textarea id="HTMLInput" rows=20 cols=100></textarea></div>
+      <button onclick="generateTOC(); return false;" type= "submit">Click me to generate/update the TOC</button>
+    </form>
+  </body>
+</html>
