@@ -33,6 +33,7 @@
         else
           HTMLInput.value = TOC + HTMLInput.value;
         HTMLInput.value = HTMLInput.value.replaceAll(/<(h\d+)[^>]*>((?:(?!\1).)+)<\/\1>/gis,(m,sm1,sm2,sm3)=>`<${sm1} id="${sm2.replaceAll(' ','_')}">${sm2}</${sm1}>`);
+        document.getElementById('HTMLRendering').innerHTML = 'Resulting HTML should produce this result:<hr>' + HTMLInput.value;
         alert("The HTML code has been updated, a Table of Contents has been added/updated at the top.\n\nNow you can copy it and paste it back into your SAP Community blog post.");
       }
     </script>
@@ -43,6 +44,7 @@
       <div><textarea id="HTMLInput" rows=20 cols=100></textarea></div>
       <button onclick="generateTOC(); return false;" type= "submit">Click me to generate/update the Table Of Contents</button>
     </form>
+    <div id="HTMLRendering"></div>
   </body>
 </html>
 
