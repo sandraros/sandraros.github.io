@@ -5,27 +5,44 @@
         let TOC = '<div id="TOC">Table of Contents:';
         let previousHeadingLevel = 0;
         let HTMLInput = document.getElementById('HTMLInput');
-        for (const match of HTMLInput.value.matchAll(/<(h)(\d+)[^>]*>((?:(?!\1\2).)+)<\/\1\2>/gis)) {
-          let headingLevel = parseInt(match[2]);
-          for( i=previousHeadingLevel; i<headingLevel; i++ ) TOC = TOC + '<ul>\n';
-          for( i=headingLevel; i<previousHeadingLevel; i++ ) TOC = TOC + '</ul>\n';
-          TOC = TOC + `<li><a href="#${match[3].replaceAll(' ','_')}">${match[3]}</a></li>` + '\n';
+        let buildList = function(headingLevel,title){
+          /* Example what TOC should be generated:
+          <h1>sss</h1>     <ul><li>sss
+          <h1>sss</h1>     </li><li>sss
+          <h2>sss</h2>     <ul><li>
+          <h3>sss</h3>     <ul><li>
+          <h1>sss</h1>     </li></ul></li></ul></li><li>
+          */
+          const numberIndentingSpaces = 4;
+          let newLineAndIndent = '\n' + ' '.repeat(headingLevel*numberIndentingSpaces);
+          for( level=previousHeadingLevel; level<headingLevel; level++ ) TOC = TOC + `<ol>${'\n' + ' '.repeat((level+1)*numberIndentingSpaces)}<li>`;
+          for( level=previousHeadingLevel; level>headingLevel; level-- ) TOC = TOC + `</li>${'\n' + ' '.repeat(level*numberIndentingSpaces)}</ol>${'\n' + ' '.repeat((level-1)*numberIndentingSpaces)}`;
+          if( headingLevel <= previousHeadingLevel) TOC = TOC + `</li>${'\n' + ' '.repeat(headingLevel*numberIndentingSpaces)}${headingLevel>0?"<li>":""}`;
+          if(headingLevel != 0) {
+            TOC = TOC + `<a href="#${title.replaceAll(' ','_')}">${title}</a>`;
+          }
           previousHeadingLevel = headingLevel;
         }
-        TOC = TOC + "</ul>\n".repeat(previousHeadingLevel) + "</div>\n";
+        for (const match of HTMLInput.value.matchAll(/<(h)(\d+)[^>]*>((?:(?!\1\2).)+)<\/\1\2>/gis)) {
+          buildList(parseInt(match[2]),match[3]);
+        }
+        buildList(0,"");
+        TOC = TOC + "</div>\n";
         if( HTMLInput.value.match( /<div[^>]+id="TOC"/gi ))
-          HTMLInput.value = HTMLInput.value.replace( /<div[^>]+id="TOC"[^>]*>.+<\/div>/gis, TOC );
+          HTMLInput.value = HTMLInput.value.replace( /<div[^>]+id="TOC"[^>]*>.+<\/div>\n/gis, TOC );
         else
           HTMLInput.value = TOC + HTMLInput.value;
         HTMLInput.value = HTMLInput.value.replaceAll(/<(h\d+)[^>]*>((?:(?!\1).)+)<\/\1>/gis,(m,sm1,sm2,sm3)=>`<${sm1} id="${sm2.replaceAll(' ','_')}">${sm2}</${sm1}>`);
+        alert("The HTML code has been updated, a Table of Contents has been added/updated at the top.\n\nNow you can copy it and paste it back into your SAP Community blog post.");
       }
     </script>
   </header>
   <body>
     <form>
-      <label for="HTMLInput">Paste the HTML code from your SAP blog post:</label>
+      <label for="HTMLInput">Paste the HTML code from your SAP Community blog post, with headings &lt;h1>, &lt;h2>, etc.:</label>
       <div><textarea id="HTMLInput" rows=20 cols=100></textarea></div>
       <button onclick="generateTOC(); return false;" type= "submit">Click me to generate/update the Table Of Contents</button>
     </form>
   </body>
 </html>
+
