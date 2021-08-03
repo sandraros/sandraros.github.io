@@ -41,9 +41,17 @@
   <body>
     <form>
       <label for="HTMLInput">Paste the HTML code from your SAP Community blog post, with headings &lt;h1>, &lt;h2>, etc.:</label>
-      <div><textarea id="HTMLInput" rows=20 cols=100></textarea></div>
+      <div><textarea id="HTMLInput" rows=20 cols=100><hr>This is a demonstration.
+<h1>Chapter 1</h1>
+<h1>Chapter 2</h1>
+<h2>Sub-chapter</h2>
+<h3>Sub-sub-chapter</h3>
+<h1>Chapter 3</h1>
+<h2>Sub-chapter</h2>
+</textarea></div>
       <button onclick="generateTOC(); return false;" type= "submit">Click me to generate/update the Table Of Contents</button>
     </form>
+    <div>(source code at <a href="https://github.com/sandraros/sandraros.github.io/blob/master/BuildSAPBlogPostTOC.html">https://github.com/sandraros/sandraros.github.io/blob/master/BuildSAPBlogPostTOC.html</a>)</div>
     <div id="HTMLRendering"></div>
   </body>
 </html>
